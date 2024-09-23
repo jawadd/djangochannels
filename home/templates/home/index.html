@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebSocket</title>
     <script>
-        var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
+        {% comment %} var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
 
         ws.onopen = function(){
             //if connection is successful this method will be executed
@@ -15,7 +15,7 @@
         }
         ws.onmessage = function(event){
             console.log('Message recieved from Server...',event)
-            console.log('Data attribute recieved from Server...',event['data'])
+            console.log('Data attribute recieved from Server...',event[])
 
         }
         ws.onerror = function(event){
@@ -23,7 +23,34 @@
         }
         ws.onclose = function(event){
             console.log('WebSocket connection closed to the server...',event)
-        }
+        } {% endcomment %}
+
+        var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
+
+        // Add event listener for 'open' event
+        ws.addEventListener('open', () => {
+            console.log('WebSocket connection opened...');
+            // Send a message to the server
+            ws.send('Message from client...');
+        });
+
+        // Add event listener for 'message' event
+        ws.addEventListener('message', (event) => {
+            console.log('Message received from Server...', event);
+            // Access the data attribute from the event
+            console.log('Data attribute received from Server...', event.data);
+        });
+
+        // Add event listener for 'error' event
+        ws.addEventListener('error', (event) => {
+            console.log('WebSocket error occurred while connecting to the server...', event);
+        });
+
+        // Add event listener for 'close' event
+        ws.addEventListener('close', (event) => {
+            console.log('WebSocket connection closed...', event);
+        });
+
 
 
     </script>
