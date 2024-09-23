@@ -3,59 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket</title>
-    <script>
-        {% comment %} var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
-
-        ws.onopen = function(){
-            //if connection is successful this method will be executed
-            console.log('WebSocket connection opened...')
-            //send message to server...
-            ws.send('Message from client...')
-        }
-        ws.onmessage = function(event){
-            console.log('Message recieved from Server...',event)
-            console.log('Data attribute recieved from Server...',event[])
-
-        }
-        ws.onerror = function(event){
-            console.log('WebSocket Error occured while connecting to the server...',event)
-        }
-        ws.onclose = function(event){
-            console.log('WebSocket connection closed to the server...',event)
-        } {% endcomment %}
-
-        var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
-
-        // Add event listener for 'open' event
-        ws.addEventListener('open', () => {
-            console.log('WebSocket connection opened...');
-            // Send a message to the server
-            ws.send('Message from client...');
-        });
-
-        // Add event listener for 'message' event
-        ws.addEventListener('message', (event) => {
-            console.log('Message received from Server...', event);
-            // Access the data attribute from the event
-            console.log('Data attribute received from Server...', event.data);
-        });
-
-        // Add event listener for 'error' event
-        ws.addEventListener('error', (event) => {
-            console.log('WebSocket error occurred while connecting to the server...', event);
-        });
-
-        // Add event listener for 'close' event
-        ws.addEventListener('close', (event) => {
-            console.log('WebSocket connection closed...', event);
-        });
-
-
-
-    </script>
+    <title>Chat App</title>
+ 
 </head>
-<body>
-    <h1>Send/Recieve data to/from Server</h1>
+<bo>
+    <h1>Chat Application using Django Channels and Redis</h1>
+    <textarea name="" id="chat" cols="50" rows="10"></textarea><br>
+    <input name="" id="chat-input" size="50"></input><br>
+    <input type="button" value="Send" id="chat-submit">
 </body>
+<script> 
+  var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
+  ws.onopen = function(){
+    //if connection is successful this method will be executed
+    console.log('WebSocket connection opened...')
+   // ws.send("Hi, from client...")
+        }
+        // the onmessage will be executed when we get data from the server, and not otherwise
+  ws.onmessage = function(event){
+     console.log('Message recieved from Server...',event)
+     const data=JSON.parse(event.data)
+     document.querySelector('#chat').value += (data.msg +'\n') 
+
+        }
+  ws.onerror = function(event){
+      console.log('WebSocket Error occured while connecting to the server...',event)
+        }
+        
+  ws.onclose = function(event){
+            console.log('WebSocket connection closed to the server...',event)
+        } 
+      
+        document.getElementById('chat-submit').onclick =
+        function(event){
+          const msgInputText = document.getElementById('chat-input').value
+          ws.send(JSON.stringify({
+          'msg': msgInputText
+          }))
+          msgInputText.value=""
+        }
+
+</script>
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+       
