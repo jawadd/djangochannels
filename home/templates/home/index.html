@@ -6,14 +6,24 @@
     <title>Chat App</title>
  
 </head>
-<bo>
+<body>
     <h1>Chat Application using Django Channels and Redis</h1>
     <textarea name="" id="chat" cols="50" rows="10"></textarea><br>
     <input name="" id="chat-input" size="50"></input><br>
     <input type="button" value="Send" id="chat-submit">
+    {{groupName|json_script:"group-name"}}
 </body>
 <script> 
-  var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
+
+ // var ws = new WebSocket('ws://127.0.0.1:8000/ws/ac/');
+  const groupName=JSON.parse(document.getElementById('group-name').textContent)
+  var ws = new WebSocket(
+    'ws://' + window.location.host + '/ws/ac/'+groupName +'/'
+  );
+
+
+
+
   ws.onopen = function(){
     //if connection is successful this method will be executed
     console.log('WebSocket connection opened...')

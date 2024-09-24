@@ -62,20 +62,13 @@ class MySyncConsumer(SyncConsumer):
 class MyASyncConsumer(AsyncConsumer):
 
     async def websocket_connect(self,event):
-        # get default channel layer from the project
-        print("Channel Layer:...",self.channel_layer)
-
-         # get default channel name from the project
-        print("Channel Name:...",self.channel_name)
-
+        
+        self.group_name=self.scope['url_route']['kwargs']['groupkaname']
         # Add  channel to a new or existing group
         await self.channel_layer.group_add(
-             'Programmers', #group name
+             self.group_name, #group name
          self.channel_name
          )
-
-       # print("Websocket connected...")
-
         await self.send({
             'type':'websocket.accept'
         })
@@ -83,7 +76,7 @@ class MyASyncConsumer(AsyncConsumer):
     async def websocket_receive(self,event):
         print("Message recieved from client is ",event)
         await self.channel_layer.group_send(
-             'Programmers',
+             self.group_name,
          {
             'type':'chat.message',
             'message': event['text']
@@ -104,8 +97,8 @@ class MyASyncConsumer(AsyncConsumer):
          # get default channel name from the project
         print("Channel Name:...",self.channel_name)
 
-        await self.channel_layer.group_discard
-        ('Programmers', #group name
+        await self.channel_layer.group_discard(
+             self.group_name, #group name
          self.channel_name
          )
 
