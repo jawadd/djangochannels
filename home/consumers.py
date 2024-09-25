@@ -1,7 +1,6 @@
 from channels.generic.websocket import WebsocketConsumer
 from channels.consumer import SyncConsumer,AsyncConsumer
 from channels.exceptions import StopConsumer
-
 from .models import Chat,ChatGroup
 from channels.db import database_sync_to_async
 import json
@@ -12,6 +11,7 @@ from channels.consumer import SyncConsumer
 from channels.generic.websocket import WebsocketConsumer,AsyncWebsocketConsumer
 from asgiref.sync import async_to_sync
 import json
+from time import sleep
 
 from .models import ChatGroup, Chat
 
@@ -22,7 +22,9 @@ class MyWebsocketConsumer(WebsocketConsumer):
     
     def receive(self, text_data=None, bytes_data=None):
         print("Data recieved from client...", text_data)
-        self.send(text_data="Message to client from Server...")
+        for i in range(7):
+            self.send(text_data=str(i))
+            sleep(1)
         return super().receive(text_data, bytes_data)
     
     def disconnect(self, code):

@@ -1,3 +1,68 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+ 
+</head>
+<body>
+    <h1>Chat Application using Django Channels and Redis</h1>
+    <textarea name="" id="chat" cols="50" rows="10">
+    
+    </textarea><br>
+    <input name="" id="chat-input" size="50" /><br>
+    <input type="button" value="Send" id="chat-submit" />
+    <h2>Count:<h3 id="count"></h3></h2>
+</body>
+<script>
+  var ws = new WebSocket('ws://127.0.0.1:8000/ws/wsc/');
+  ws.onopen = function(){
+    //if connection is successful this method will be executed
+    console.log('WebSocket connection opened...')
+   ws.send("Hi, from client...")
+        }
+        // the onmessage will be executed when we get data from the server, and not otherwise
+  ws.onmessage = function(event){
+     console.log('Message recieved from Server...',event)
+     document.getElementById('count').innerText = event.data
+     
+     
+      
+
+        }
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
