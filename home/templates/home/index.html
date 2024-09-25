@@ -22,7 +22,7 @@
  // var ws = new WebSocket('ws://127.0.0.1:8000/ws/ac/');
   const groupName=JSON.parse(document.getElementById('group-name').textContent)
   var ws = new WebSocket(
-    'ws://' + window.location.host + '/ws/ac/'+groupName +'/'
+    'ws://' + window.location.host + '/ws/sc/'+groupName +'/'
   );
 
 
@@ -37,7 +37,7 @@
   ws.onmessage = function(event){
      console.log('Message recieved from Server...',event)
      const data=JSON.parse(event.data)
-     document.querySelector('#chat').value += (data.msg +'\n') 
+     document.querySelector('#chat').value += (data.user + ': ' +data.msg +'\n') 
 
         }
   ws.onerror = function(event){
